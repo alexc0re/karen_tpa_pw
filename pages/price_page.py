@@ -82,6 +82,6 @@ class Price_page(App_Object):
                 print(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
                       f'\nNew file:{products}{arr}')
                 send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
-                #       f'\nNew file:{products}{arr}')
-                print(self.aromas)
+                       f'\nNew file:{products}{arr}')
+        print(self.aromas)
 
