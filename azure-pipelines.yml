@@ -47,7 +47,7 @@ steps:
   inputs:
     ${{ if contains(parameters.subscription, 'smoke') }}:
       script: |
-        pytest
+        pytest -k test_prices -v -s 
     ${{ if contains(parameters.subscription, 'regression') }}:
       script: |
         pytest
