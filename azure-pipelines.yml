@@ -12,7 +12,7 @@ schedules:
   displayName: Weekly Sunday build
   branches:
     include:
-    - main
+    - master
   always: true
 
 
