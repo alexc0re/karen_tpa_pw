@@ -587,7 +587,7 @@ class Price_page(App_Object):
                 self.names_list.update({aroma_name: prices})
 
     def compare_dicts(self):
-        send_telegram('www.youtube.com/watch?v=fUdsmUbs3s0')
+        # send_telegram('www.youtube.com/watch?v=fUdsmUbs3s0')
         names_list = self.names_list
         data = self.data
         added, removed, modified, same = dict_compare(names_list, data)
