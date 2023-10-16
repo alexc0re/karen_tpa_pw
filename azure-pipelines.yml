@@ -1,0 +1,60 @@
+parameters:
+  - name: subscription
+    displayName: Scopes
+    type: string
+    default: regression
+    values:
+      - smoke
+      - regression
+
+schedules:
+- cron: "0 12 * * 0"
+  displayName: Weekly Sunday build
+  branches:
+    include:
+    - main
+  always: true
+
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.9'
+    addToPath: true
+    architecture: 'x64'
+
+
+- script: |
+- task: CmdLine@2
+  inputs:
+    script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+- task: CmdLine@2
+  inputs:
+    script: |
+      playwright install
+  displayName: 'Install dependencies'
+
+- task: CmdLine@2
+  inputs:
+    ${{ if contains(parameters.subscription, 'smoke') }}:
+      script: |
+        pytest -k "test_prices -v -s"
+    ${{ if contains(parameters.subscription, 'regression') }}:
+      script: |
+        pytest
+  displayName: 'pytest'
+  continueOnError: true
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'result.xml'
