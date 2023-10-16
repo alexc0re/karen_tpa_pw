@@ -1,7 +1,7 @@
 import os
 import time
 from sendtelegram.telegram import send_telegram
-
+from env_setup import Credentials
 from base.app import App_Object
 
 
@@ -561,8 +561,8 @@ class Price_page(App_Object):
 
     def login(self):
         self.open_tpa()
-        self.page.fill(self.EMAIL_FIELD, os.getenv('NAME'))
-        self.page.fill(self.PASSWORD_FIELD, os.getenv('ASS'))
+        self.page.fill(self.EMAIL_FIELD, Credentials.APP_USERNAME)
+        self.page.fill(self.PASSWORD_FIELD, Credentials.APP_PASSWORD)
         self.page.click(self.LOGIN_BUTTON)
 
     def get_aromas(self):
