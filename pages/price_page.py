@@ -59,7 +59,7 @@ class Price_page(App_Object):
                 self.aromas.update({aroma_name: prices})
 
     def compare_dicts(self):
-        # send_telegram('www.youtube.com/watch?v=fUdsmUbs3s0')
+        send_telegram('www.youtube.com/watch?v=fUdsmUbs3s0')
         names_list = self.aromas
         data = self.data
         added, removed, modified, same = dict_compare(names_list, data)
@@ -72,7 +72,7 @@ class Price_page(App_Object):
                     if arr[i] != arr2[i]:
                         time.sleep(10)
                         print(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
-                        # send_telegram(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
+                        send_telegram(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
 
                         i += 1
                     else:
@@ -81,7 +81,7 @@ class Price_page(App_Object):
                 time.sleep(10)
                 print(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
                       f'\nNew file:{products}{arr}')
-                # send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
+                send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
                 #       f'\nNew file:{products}{arr}')
                 print(self.aromas)
 
