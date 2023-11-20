@@ -1,0 +1,13 @@
+venv
+pytest_report
+pytestdebug.log
+.idea
+.pytest_cache
+__pycache__
+logfile.log
+output.json
+archive
+.DS_Store
+.env
+**cookies.json
+**__init__.py
