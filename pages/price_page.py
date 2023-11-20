@@ -1,3 +1,4 @@
+import json
 import os
 import random
 import time
@@ -5,6 +6,10 @@ from sendtelegram.telegram import send_telegram
 from env_setup import Credentials
 from base.app import App_Object
 from data import data
+from database.db_update import AromasDB
+aromas_db = AromasDB()
+
+
 
 
 def gachi():
@@ -24,6 +29,14 @@ def dict_compare(d1, d2):
     modified = {o: (d1[o], d2[o]) for o in shared_keys if d1[o] != d2[o]}
     same = set(o for o in shared_keys if d1[o] == d2[o])
     return added, removed, modified, same
+
+
+def db():
+    aromas_json = aromas_db.get_aroma_data_by_id(16)
+    aroms = json.loads(aromas_json)
+    print(type(aroms))
+    print(aroms)
+
 
 
 class Price_page(App_Object):
@@ -66,9 +79,10 @@ class Price_page(App_Object):
                 self.aromas.update({aroma_name: prices})
 
     def compare_dicts(self):
-        send_telegram(gachi())
+        # send_telegram(gachi())
         names_list = self.aromas
-        data = self.data
+        aromas_json = aromas_db.get_aroma_data_by_id(16)
+        data = json.loads(aromas_json)
         added, removed, modified, same = dict_compare(names_list, data)
         for products, prises_list in modified.items():
             arr = prises_list[0]
@@ -79,7 +93,7 @@ class Price_page(App_Object):
                     if arr[i] != arr2[i]:
                         time.sleep(10)
                         print(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
-                        send_telegram(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
+                        # send_telegram(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
 
                         i += 1
                     else:
@@ -88,6 +102,8 @@ class Price_page(App_Object):
                 time.sleep(10)
                 print(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
                       f'\nNew file:{products}{arr}')
-                send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
-                              f'\nNew file:{products}{arr}')
-        print(f'\n{self.aromas}')
+                # send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
+                         #     f'\nNew file:{products}{arr}')
+        aromas_db.update_aroma_data(16, json.dumps(self.aromas))
+
+
