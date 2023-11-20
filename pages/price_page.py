@@ -6,12 +6,14 @@ from env_setup import Credentials
 from base.app import App_Object
 from data import data
 
+
 def gachi():
     gachi_videos = ['https://www.youtube.com/watch?v=AIQZ_3xWosc', 'https://www.youtube.com/watch?v=johcE5s525M',
                     'https://www.youtube.com/watch?v=XWDdMVlhpwM&pp=ygULZ2FjaGkgdmlkZW8%3D',
                     'https://www.youtube.com/watch?v=frfZyKIHPuQ&t=40s&pp=ygULZ2FjaGkgdmlkZW8%3D',
                     'www.youtube.com/watch?v=fUdsmUbs3s0']
     return random.choice(gachi_videos)
+
 
 def dict_compare(d1, d2):
     d1_keys = set(d1.keys())
@@ -87,6 +89,5 @@ class Price_page(App_Object):
                 print(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
                       f'\nNew file:{products}{arr}')
                 send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
-                       f'\nNew file:{products}{arr}')
+                              f'\nNew file:{products}{arr}')
         print(f'\n{self.aromas}')
-
