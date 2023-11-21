@@ -1,3 +1,4 @@
+import ast
 import json
 import os
 import random
@@ -9,7 +10,8 @@ from data import data
 from database.db_update import AromasDB
 aromas_db = AromasDB()
 
-
+def db_create():
+    aromas_db.create_aroma_data()
 
 
 def gachi():
@@ -31,11 +33,17 @@ def dict_compare(d1, d2):
     return added, removed, modified, same
 
 
-def db():
-    aromas_json = aromas_db.get_aroma_data_by_id(16)
-    aroms = json.loads(aromas_json)
+
+def get_aroms_data_from_db():
+    aromas_json = aromas_db.get_aroma_data_by_id()
+    aroms = str(aromas_json)
+    aroms = aroms[1:]
+    aroms = aroms[:-1]
+    aroms = aroms[:-1]
+    aroms = ast.literal_eval(aroms)
     print(type(aroms))
     print(aroms)
+    return aroms
 
 
 
@@ -80,10 +88,9 @@ class Price_page(App_Object):
 
     def compare_dicts(self):
         # send_telegram(gachi())
-        names_list = self.aromas
-        aromas_json = aromas_db.get_aroma_data_by_id(16)
-        data = json.loads(aromas_json)
-        added, removed, modified, same = dict_compare(names_list, data)
+        actual_list = self.aromas
+        expected_list = get_aroms_data_from_db()
+        added, removed, modified, same = dict_compare(actual_list, expected_list)
         for products, prises_list in modified.items():
             arr = prises_list[0]
             arr2 = prises_list[1]
@@ -104,6 +111,6 @@ class Price_page(App_Object):
                       f'\nNew file:{products}{arr}')
                 # send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
                          #     f'\nNew file:{products}{arr}')
-        aromas_db.update_aroma_data(16, json.dumps(self.aromas))
+        aromas_db.update_aroma_data(self.aromas)
 
 

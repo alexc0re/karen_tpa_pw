@@ -1,4 +1,8 @@
-playwright~=1.36.0
+playwright==1.39.0
 pytest-playwright
-pytest==7.4.0
+pytest==7.4.3
 python-dotenv
+requests
+psycopg2-binary
+jsonschema
+pytest-pyreport
