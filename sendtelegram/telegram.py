@@ -1,8 +1,11 @@
 import requests
 import json
 
+from env_setup import Credentials
+
+
 def send_telegram(text: str):
-    token = "5495112534:AAEWG63do-kCAoK2jry8-ORcvx4uXsUousM"
+    token = Credentials.TELEGRAM_TOKEN
     url = "https://api.telegram.org/bot"
     channel_id = "-889877330"
     url += token

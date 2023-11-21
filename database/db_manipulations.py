@@ -16,14 +16,12 @@ class AromasDB:
             user="uzpeqkka",
             password=Credentials.DB_PASS,
             host="trumpet.db.elephantsql.com",
-            port="5432")
+            port="5432"
+        )
 
 
     def create_aroma_data(self):
-        data = aromas_data
-        cur = self.db_connection.connection.cursor()
-        cur.close()
-        aroma_data = json.dumps(data)
+        aroma_data = json.dumps(aromas_data)
         self.db_connection.execute(
             "INSERT INTO tpa_table (aromas_data)  VALUES (%s)",
             aroma_data)

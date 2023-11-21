@@ -7,7 +7,7 @@ from sendtelegram.telegram import send_telegram
 from env_setup import Credentials
 from base.app import App_Object
 from data import data
-from database.db_update import AromasDB
+from database.db_manipulations import AromasDB
 aromas_db = AromasDB()
 
 def db_create():
@@ -86,7 +86,7 @@ class Price_page(App_Object):
 
     def compare_dicts(self):
         send_telegram(gachi())
-        actual_list = get_aroms_data_from_db()
+        actual_list = self.aromas
         expected_list = get_aroms_data_from_db()
         added, removed, modified, same = dict_compare(actual_list, expected_list)
         print(f'\n Added items: {added}\n Removed items: {removed}\n Modified items: {modified}')

@@ -12,6 +12,7 @@ class Credentials:
     APP_USERNAME: str = os.getenv("NAME")
     APP_PASSWORD: str = os.getenv("ASS")
     DB_PASS = str = os.getenv("DB_PASS")
+    TELEGRAM_TOKEN = str = os.getenv("TELEGRAM_TOKEN")
 
     @classmethod
     def get_env_variables(cls):
