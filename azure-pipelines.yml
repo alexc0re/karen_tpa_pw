@@ -40,7 +40,7 @@ steps:
   - task: CmdLine@2
     inputs:
       script: |
-        playwright install
+        playwright install chromium
     displayName: 'Install dependencies'
 
   - task: CmdLine@2
