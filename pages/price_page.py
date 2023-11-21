@@ -41,8 +41,6 @@ def get_aroms_data_from_db():
     aroms = aroms[:-1]
     aroms = aroms[:-1]
     aroms = ast.literal_eval(aroms)
-    print(type(aroms))
-    print(aroms)
     return aroms
 
 
@@ -87,30 +85,30 @@ class Price_page(App_Object):
                 self.aromas.update({aroma_name: prices})
 
     def compare_dicts(self):
-        # send_telegram(gachi())
-        actual_list = self.aromas
+        send_telegram(gachi())
+        actual_list = get_aroms_data_from_db()
         expected_list = get_aroms_data_from_db()
         added, removed, modified, same = dict_compare(actual_list, expected_list)
-        for products, prises_list in modified.items():
-            arr = prises_list[0]
-            arr2 = prises_list[1]
-            i = 0
-            if len(arr) == len(arr2):
-                while i < len(arr):
-                    if arr[i] != arr2[i]:
-                        time.sleep(10)
-                        print(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
-                        # send_telegram(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
+        print(f'\n Added items: {added}\n Removed items: {removed}\n Modified items: {modified}')
 
-                        i += 1
-                    else:
-                        i += 1
+        for product, prices_list in modified.items():
+
+            old_prices = prices_list[0]
+            new_prices = prices_list[1]
+
+            if len(old_prices) == len(new_prices):
+                for i in range(len(old_prices)):
+                    if old_prices[i] != new_prices[i]:
+                        time.sleep(10)
+                        print(f"\n{product}\nold:{new_prices[i]} \nnew:{old_prices[i]}")
+                        send_telegram(f"\n{product}\nold:{new_prices[i]} \nnew:{old_prices[i]}")
             else:
                 time.sleep(10)
-                print(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
-                      f'\nNew file:{products}{arr}')
-                # send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
-                         #     f'\nNew file:{products}{arr}')
+                print(f'\nNew position was added/removed:\nOld file:{product}{new_prices} '
+                      f'\nNew file:{product}{old_prices}')
+                send_telegram(f'\nNew position was added/removed:\nOld file:{product}{new_prices} '
+                              f'\nNew file:{product}{old_prices}')
+
         aromas_db.update_aroma_data(self.aromas)
 
 

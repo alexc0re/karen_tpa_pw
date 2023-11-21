@@ -20,11 +20,8 @@ class AromasDB:
         data = aromas_data
         cur = self.db_connection.connection.cursor()
         cur.close()
-        print(data)
         aroma_data = json.dumps(data)
-        print("\n ASSSSSSSSSSSSSSS")
-        print(aroma_data)
-        var = self.db_connection.execute(
+        self.db_connection.execute(
             "INSERT INTO tpa_table (aromas_data)  VALUES (%s)",
             aroma_data)
 
