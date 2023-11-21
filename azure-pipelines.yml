@@ -6,11 +6,8 @@ parameters:
     values:
       - smoke
       - regression
-variables:
-  VMS_USER: $(ASS)
-  ASS: $(DB_PASS)
-  NAME: ${env:NAME}
-  TELEGRAM_TOKEN: $(TELEGRAM_TOKEN)
+
+
 
 schedules:
   - cron: "0 12 * * 0"
