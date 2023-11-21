@@ -1,3 +1,5 @@
+import ast
+import json
 import os
 import random
 import time
@@ -5,6 +7,11 @@ from sendtelegram.telegram import send_telegram
 from env_setup import Credentials
 from base.app import App_Object
 from data import data
+from database.db_update import AromasDB
+aromas_db = AromasDB()
+
+def db_create():
+    aromas_db.create_aroma_data()
 
 
 def gachi():
@@ -24,6 +31,18 @@ def dict_compare(d1, d2):
     modified = {o: (d1[o], d2[o]) for o in shared_keys if d1[o] != d2[o]}
     same = set(o for o in shared_keys if d1[o] == d2[o])
     return added, removed, modified, same
+
+
+
+def get_aroms_data_from_db():
+    aromas_json = aromas_db.get_aroma_data_by_id()
+    aroms = str(aromas_json)
+    aroms = aroms[1:]
+    aroms = aroms[:-1]
+    aroms = aroms[:-1]
+    aroms = ast.literal_eval(aroms)
+    return aroms
+
 
 
 class Price_page(App_Object):
@@ -67,27 +86,29 @@ class Price_page(App_Object):
 
     def compare_dicts(self):
         send_telegram(gachi())
-        names_list = self.aromas
-        data = self.data
-        added, removed, modified, same = dict_compare(names_list, data)
-        for products, prises_list in modified.items():
-            arr = prises_list[0]
-            arr2 = prises_list[1]
-            i = 0
-            if len(arr) == len(arr2):
-                while i < len(arr):
-                    if arr[i] != arr2[i]:
-                        time.sleep(10)
-                        print(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
-                        send_telegram(f"\n{products}\nold:{arr2[i]} \nnew:{arr[i]}")
+        actual_list = get_aroms_data_from_db()
+        expected_list = get_aroms_data_from_db()
+        added, removed, modified, same = dict_compare(actual_list, expected_list)
+        print(f'\n Added items: {added}\n Removed items: {removed}\n Modified items: {modified}')
 
-                        i += 1
-                    else:
-                        i += 1
+        for product, prices_list in modified.items():
+
+            old_prices = prices_list[0]
+            new_prices = prices_list[1]
+
+            if len(old_prices) == len(new_prices):
+                for i in range(len(old_prices)):
+                    if old_prices[i] != new_prices[i]:
+                        time.sleep(10)
+                        print(f"\n{product}\nold:{new_prices[i]} \nnew:{old_prices[i]}")
+                        send_telegram(f"\n{product}\nold:{new_prices[i]} \nnew:{old_prices[i]}")
             else:
                 time.sleep(10)
-                print(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
-                      f'\nNew file:{products}{arr}')
-                send_telegram(f'\nNew position was added/removed:\nOld file:{products}{arr2} '
-                              f'\nNew file:{products}{arr}')
-        print(f'\n{self.aromas}')
+                print(f'\nNew position was added/removed:\nOld file:{product}{new_prices} '
+                      f'\nNew file:{product}{old_prices}')
+                send_telegram(f'\nNew position was added/removed:\nOld file:{product}{new_prices} '
+                              f'\nNew file:{product}{old_prices}')
+
+        aromas_db.update_aroma_data(self.aromas)
+
+
