@@ -5,13 +5,16 @@ import pytest
 
 from data import data as aromas_data
 from database.db_connection import DataBaseConnection
+from env_setup import Credentials
+
+
 class AromasDB:
 
     def __init__(self):
         self.db_connection = DataBaseConnection(
             dbname="uzpeqkka",
             user="uzpeqkka",
-            password="b6__BO10VTxQT6AKe1f2rDKWoffoYM_3",
+            password=Credentials.DB_PASS,
             host="trumpet.db.elephantsql.com",
             port="5432")
 

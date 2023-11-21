@@ -11,6 +11,7 @@ class Credentials:
     load_dotenv()
     APP_USERNAME: str = os.getenv("NAME")
     APP_PASSWORD: str = os.getenv("ASS")
+    DB_PASS = str = os.getenv("DB_PASS")
 
     @classmethod
     def get_env_variables(cls):
