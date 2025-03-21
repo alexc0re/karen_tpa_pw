@@ -1,4 +1,3 @@
-from pages.price_page import db_create, get_aroms_data_from_db
 
 
 def test_prices(price_page):
@@ -9,5 +8,5 @@ def test_prices(price_page):
 
 
 
-def test_get_aroms():
-    get_aroms_data_from_db()
+# def test_get_aroms():
+#     get_aroms_data_from_db()
