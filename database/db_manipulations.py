@@ -36,7 +36,12 @@ class AromasDB:
         self.db_connection.connection.commit()
 
 
+
     def get_aroma_data_by_id(self, id=2):
         query = "SELECT aromas_data FROM tpa_table WHERE id = %s"
         row = self.db_connection.fetchone(query, id)
         return row
+
+
+
+

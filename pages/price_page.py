@@ -7,11 +7,11 @@ from sendtelegram.telegram import send_telegram
 from env_setup import Credentials
 from base.app import App_Object
 from data import data
-from database.db_manipulations import AromasDB
-aromas_db = AromasDB()
 
-def db_create():
-    aromas_db.create_aroma_data()
+
+from database.mongodb import MongoConnection
+aromas_db = MongoConnection()
+
 
 
 def gachi():
@@ -36,12 +36,7 @@ def dict_compare(d1, d2):
 
 def get_aroms_data_from_db():
     aromas_json = aromas_db.get_aroma_data_by_id()
-    aroms = str(aromas_json)
-    aroms = aroms[1:]
-    aroms = aroms[:-1]
-    aroms = aroms[:-1]
-    aroms = ast.literal_eval(aroms)
-    return aroms
+    return aromas_json
 
 
 
@@ -85,10 +80,12 @@ class Price_page(App_Object):
                 self.aromas.update({aroma_name: prices})
 
     def compare_dicts(self):
-        send_telegram(gachi())
+
         actual_list = self.aromas
         expected_list = get_aroms_data_from_db()
         added, removed, modified, same = dict_compare(actual_list, expected_list)
+        if not  modified:
+            send_telegram(gachi())
         print(f'\n Added items: {added}\n Removed items: {removed}\n Modified items: {modified}')
 
         for product, prices_list in modified.items():
