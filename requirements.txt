@@ -6,3 +6,4 @@ requests
 psycopg2-binary
 jsonschema
 pytest-pyreport
+pymongo
