@@ -47,9 +47,8 @@ steps:
 
   - task: CmdLine@2
     inputs:
-      ${{ if contains(parameters.subscription, 'smoke') }}:
-        script: |
-          pytest -k test_prices -v -s
+      script: |
+        pytest -k test_prices -v -s
     displayName: 'pytest'
     continueOnError: true
 
