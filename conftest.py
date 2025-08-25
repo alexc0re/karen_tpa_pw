@@ -13,7 +13,7 @@ def get_playwright():
 
 @fixture(scope='session')
 def get_browser(get_playwright):
-    browser = get_playwright.webkit.launch(headless=True)
+    browser = get_playwright.chromium.launch(headless=True)
     yield browser
     browser.close()
 
