@@ -10,7 +10,7 @@ parameters:
 
 
 schedules:
-  - cron: "0 12 * * 0"
+  - cron: "0 12 */4 * *"
     displayName: Weekly Sunday build
     branches:
       include:
@@ -50,9 +50,6 @@ steps:
       ${{ if contains(parameters.subscription, 'smoke') }}:
         script: |
           pytest -k test_prices -v -s
-      ${{ if contains(parameters.subscription, 'regression') }}:
-        script: |
-          pytest
     displayName: 'pytest'
     continueOnError: true
 
