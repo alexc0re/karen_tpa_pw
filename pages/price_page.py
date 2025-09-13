@@ -3,7 +3,7 @@ import time
 
 from env_setup import Credentials
 from base.app import App_Object
-from pages.dict_compare import compare_nested_price_dicts
+from pages.dict_compare import compare_and_format as fff
 from sendtelegram.telegram import send_telegram
 from database.mongodb import MongoConnection
 
@@ -24,8 +24,8 @@ class Price_page(App_Object):
     PASSWORD_FIELD = "#Password"
     LOGIN_BUTTON = ".page-action-bar .btn"
     ass = '623914148'
-    AROMA_BLOCK = ('.product-listing li')
-    AROMA_NAME = ('.product-listing li h2')
+    AROMA_BLOCK = '.product-listing li'
+    AROMA_NAME = '.product-listing li h2'
     aromas = {}
 
     def login(self):
@@ -65,7 +65,7 @@ class Price_page(App_Object):
             expected_dict.pop('Dr')
         except:
             pass
-        messages_list = compare_nested_price_dicts(expected_dict, actual_dict)
+        messages_list = fff(expected_dict, actual_dict)
         for message in messages_list:
             time.sleep(10)
             send_telegram(message)
