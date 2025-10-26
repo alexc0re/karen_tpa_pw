@@ -13,7 +13,8 @@ def send_telegram(text: str):
 
     r = requests.post(method, data={
         "chat_id": channel_id,
-        "text": text
+        "text": text,
+        "parse_mode": "markdown"
     })
 
     if r.status_code != 200:

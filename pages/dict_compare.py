@@ -4,6 +4,7 @@ from typing import Dict, List, Any, Optional, Union
 
 PriceDict = Dict[str, Dict[str, List[str]]]
 
+
 def gachi():
     gachi_videos = ['https://www.youtube.com/watch?v=AIQZ_3xWosc', 'https://www.youtube.com/watch?v=johcE5s525M',
                     'https://www.youtube.com/watch?v=XWDdMVlhpwM&pp=ygULZ2FjaGkgdmlkZW8%3D',
@@ -11,8 +12,9 @@ def gachi():
                     'www.youtube.com/watch?v=fUdsmUbs3s0']
     return random.choice(gachi_videos)
 
+
 def parse_price(value: str):
-    """Перетворює '\$1,056.00' або '\$904.0‘' у float 1056.0, 904.0 (або None, якщо не парситься)."""
+    # """Перетворює '\$1,056.00' або '\$904.0‘' у float 1056.0, 904.0 (або None, якщо не парситься)."""
     if value is None:
         return None
     s = str(value).strip()
@@ -44,7 +46,7 @@ def compare_and_format(old: PriceDict, new: PriceDict) -> str:
 
     # Додані товари (з усіма позиціями і цінами як у new)
     for product in added_products:
-        lines.append(f"доданий товар: {product} і його позиціі з цінами")
+        lines.append(f"\n*Added product:* {product}")
         variants = new.get(product, {})
         for variant, prices in variants.items():
             nums = normalize_prices(prices)
@@ -56,7 +58,7 @@ def compare_and_format(old: PriceDict, new: PriceDict) -> str:
 
     # Видалені товари (з усіма позиціями і цінами як у old)
     for product in removed_products:
-        lines.append(f"видалений товар: {product} і його позиціі з цінами")
+        lines.append(f"\n*Deleted product:* {product}")
         variants = old.get(product, {})
         for variant, prices in variants.items():
             nums = normalize_prices(prices)
@@ -79,13 +81,13 @@ def compare_and_format(old: PriceDict, new: PriceDict) -> str:
             # Порівнюємо як списки. Якщо довжина 1, виводимо у вашому форматі "зі X на Y"
             if len(old_nums) == 1 and len(new_nums) == 1:
                 if old_nums[0] != new_nums[0]:
-                    lines.append(f"зміна ціни для {product} -> {variant} з {old_nums[0]}$ на {new_nums[0]}$")
+                    lines.append(f"\n*Price change*  {product} {variant} *from* {old_nums[0]}$  to ->  {new_nums[0]}$")
             else:
                 # Якщо вказано кілька значень — порівняємо списки повністю
                 if len(old_nums) != len(new_nums) or any(a != b for a, b in zip(old_nums, new_nums)):
                     lines.append(
-                        f"зміна ціни для {product}$ -> {variant}$ "
-                        f"з [{', '.join(map(str, old_nums))}]$ на [{', '.join(map(str, new_nums))}]$"
+                        f"\n*Price change* {product}$ -> {variant}$ "
+                        f"*from* [{', '.join(map(str, old_nums))}]$ -> [{', '.join(map(str, new_nums))}]$"
                     )
 
         # Також можна опціонально виводити додані/видалені варіанти у спільних товарах:
