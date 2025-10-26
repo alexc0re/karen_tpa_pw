@@ -12,15 +12,13 @@ def send_telegram(text: str):
     method = url + "/sendMessage"
 
     r = requests.post(method, data={
-         "chat_id": channel_id,
-         "text": text
-          })
+        "chat_id": channel_id,
+        "text": text
+    })
 
     if r.status_code != 200:
         raise Exception("post_text errnor")
 
+
 if __name__ == '__main__':
-  send_telegram("test msg")
-
-
-
+    send_telegram("test msg")

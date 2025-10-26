@@ -10,10 +10,6 @@ from database.mongodb import MongoConnection
 aromas_db = MongoConnection()
 
 
-
-
-
-
 def get_aroms_data_from_db():
     aromas_json = aromas_db.get_aroma_data_by_id()
     return aromas_json
@@ -55,9 +51,9 @@ class Price_page(App_Object):
                 if prices:
                     self.aromas.update({aroma_name: prices})
 
-
-
     def compare_dicts(self):
+        message_string = ''
+        messages_timeout = 0
         actual_dict = self.aromas
         expected_dict = self.get_aroms_data_from_db()
         try:
@@ -67,10 +63,17 @@ class Price_page(App_Object):
             pass
         messages_list = fff(expected_dict, actual_dict)
         for message in messages_list:
-            time.sleep(10)
+            message_string += message
+            message_string += '\n'
+            if len(message_string) > 3900:
+                print(message_string)
+                send_telegram(message)
+                message_string = ''
+                messages_timeout += 1
+                if messages_timeout == 19:
+                    time.sleep(50)
+            print(message_string)
             send_telegram(message)
-            print(message)
+
 
         aromas_db.update_aroma_data(actual_dict)
-
-
