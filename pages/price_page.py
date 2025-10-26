@@ -1,6 +1,6 @@
 import random
 import time
-
+import sys
 from env_setup import Credentials
 from base.app import App_Object
 from pages.dict_compare import compare_and_format as fff
@@ -66,13 +66,13 @@ class Price_page(App_Object):
             message_string += message
             message_string += '\n'
             if len(message_string) > 3900:
-                print(message_string)
+                print(message_string, file=sys.stdout)
                 send_telegram(message)
                 message_string = ''
                 messages_timeout += 1
                 if messages_timeout == 19:
                     time.sleep(50)
-            print(message_string)
+            print(message_string, file=sys.stdout)
             send_telegram(message)
 
 
