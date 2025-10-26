@@ -61,19 +61,23 @@ class Price_page(App_Object):
             expected_dict.pop('Dr')
         except:
             pass
+
         messages_list = fff(expected_dict, actual_dict)
         for message in messages_list:
-            message_string += message
-            message_string += '\n'
-            if len(message_string) > 50:
+            message_string += message + '\n'
+
+            if len(message_string) > 4000:
                 print(message_string)
-                # send_telegram(message_string)
+                send_telegram(message_string)
+
                 message_string = ''
                 messages_timeout += 1
-                if messages_timeout == 19:
-                    time.sleep(10)
+                if messages_timeout % 19 == 0:
+                    time.sleep(50)
+
+        if message_string:
             print(message_string)
-            # send_telegram(message_string)
+            send_telegram(message_string)
 
 
         aromas_db.update_aroma_data(actual_dict)
