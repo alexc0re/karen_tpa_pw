@@ -2,6 +2,7 @@ import requests
 import json
 
 from env_setup import Credentials
+from pages.dict_compare import gachi
 
 
 def send_telegram(text: str):
@@ -10,7 +11,8 @@ def send_telegram(text: str):
     channel_id = "-889877330"
     url += token
     method = url + "/sendMessage"
-
+    if not text:
+        text = gachi()
     r = requests.post(method, data={
         "chat_id": channel_id,
         "text": text,
